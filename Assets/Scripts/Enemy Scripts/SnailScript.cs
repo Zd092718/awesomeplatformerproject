@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class SnailScript : MonoBehaviour
@@ -73,11 +74,15 @@ public class SnailScript : MonoBehaviour
 
                     canMove = false;
                     myBody.velocity = new Vector2(0, 0);
-                    anim.Play("SnailStunned");
+                    anim.Play("Stunned");
                     stunned = true;
 
                     // Beetle code here
-
+                    if (tag == MyTags.BEETLE_TAG)
+                    {
+                        anim.Play("Stunned");
+                        StartCoroutine(Dead());
+                    }
                 }
             }
         }
@@ -93,7 +98,10 @@ public class SnailScript : MonoBehaviour
                 }
                 else
                 {
-                    myBody.velocity = new Vector2(15f, myBody.velocity.y);
+                    if (tag != MyTags.BEETLE_TAG)
+                    {
+                        myBody.velocity = new Vector2(15f, myBody.velocity.y);
+                    }
                 }
             }
         }
@@ -109,7 +117,10 @@ public class SnailScript : MonoBehaviour
                 }
                 else
                 {
-                    myBody.velocity = new Vector2(-15f, myBody.velocity.y);
+                    if (tag != MyTags.BEETLE_TAG)
+                    {
+                        myBody.velocity = new Vector2(-15f, myBody.velocity.y);
+                    }
                 }
             }
         }
@@ -143,5 +154,10 @@ public class SnailScript : MonoBehaviour
         transform.localScale = tempScale;
     }
 
+    IEnumerator Dead()
+    {
+        yield return new WaitForSeconds(0.5f);
+        gameObject.SetActive(false);
+    }
 
 }//class
