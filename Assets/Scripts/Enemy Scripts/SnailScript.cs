@@ -81,7 +81,7 @@ public class SnailScript : MonoBehaviour
                     if (tag == MyTags.BEETLE_TAG)
                     {
                         anim.Play("Stunned");
-                        StartCoroutine(Dead());
+                        StartCoroutine(Dead(0.5f));
                     }
                 }
             }
@@ -101,6 +101,7 @@ public class SnailScript : MonoBehaviour
                     if (tag != MyTags.BEETLE_TAG)
                     {
                         myBody.velocity = new Vector2(15f, myBody.velocity.y);
+                        StartCoroutine(Dead(3.0f));
                     }
                 }
             }
@@ -120,6 +121,7 @@ public class SnailScript : MonoBehaviour
                     if (tag != MyTags.BEETLE_TAG)
                     {
                         myBody.velocity = new Vector2(-15f, myBody.velocity.y);
+                        StartCoroutine(Dead(3.0f));
                     }
                 }
             }
@@ -154,9 +156,9 @@ public class SnailScript : MonoBehaviour
         transform.localScale = tempScale;
     }
 
-    IEnumerator Dead()
+    IEnumerator Dead(float timer)
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(timer);
         gameObject.SetActive(false);
     }
 
